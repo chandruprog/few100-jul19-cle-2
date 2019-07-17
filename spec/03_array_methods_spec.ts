@@ -54,18 +54,46 @@ describe('Array methods', () => {
 			});
 		});
 	});
+
 	describe('practical use', () => {
 
-		xit('your practise 1', () => {
-			let vehicles = [
-				{ vin: '8398398397', info: { make: 'Ford', model: 'Explorer', year: 2012 }, mileage: 132_000 },
-				{ vin: '55567478473', info: { make: 'Toyota', model: 'Camry', year: 2018 }, mileage: 8_000 },
-				{ vin: '1234947848', info: { make: 'Chevy', model: 'Bolt', year: 2018 }, mileage: 152_000 },
-			];
+		interface Vehicle {
+			vin: string;
+			info: {
+				make: string;
+				model: string;
+				year: number;
+			};
+			mileage: number;
+		};
+		let vehicles: Vehicle[] = [
+			{ vin: '8398398397', info: { make: 'Ford', model: 'Explorer', year: 2012 }, mileage: 132_000 },
+			{ vin: '55567478473', info: { make: 'Toyota', model: 'Camry', year: 2018 }, mileage: 8_000 },
+			{ vin: '1234947848', info: { make: 'Chevy', model: 'Bolt', year: 2018 }, mileage: 152_000 },
+		];
+
+		it('your practice 1', () => {
+
+			function isAHighMileageVehicle(vehicle: Vehicle) {
+				return vehicle.mileage > 100_000;
+			}
+			function getInfo(vehicle: Vehicle): {
+				make: string;
+				model: string;
+				year: number;
+			} {
+				return vehicle.info;
+			}
+			const answer: string[] = vehicles
+				.filter(isAHighMileageVehicle) // [vehicles] => [vehicles > 100_000 miles]
+				.map(getInfo) // [Vehicles] => [Info]
+				.map(peter => `${peter.make} ${peter.model}`); // [Info] => [String]
+
+			expect(answer).toEqual(['Ford Explorer', 'Chevy Bolt']);
 		});
 
 
-		fit('second practise with data', () => {
+		it('second practise with data', () => {
 			const customers = data;
 			// 1) I want an array of the names, email, phone of each active customer with a balance > $1,000.00
 			interface Answer1 {
